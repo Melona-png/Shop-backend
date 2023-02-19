@@ -40,6 +40,37 @@ Category.init(
         }
       }
     },
+Tag.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    tag_name: {
+      type: DataTypes.STRING
+    }},
+ProductTag.init(
+  { id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true
+  },
+    product_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Product',
+        key: 'id'
+      }
+    },
+    tag_id: DataTypes.INTEGER,
+    references: {
+      model: 'Tag',
+      key: 'id'
+    }},
+)),
     {
       sequelize,
       timestamps: false,
