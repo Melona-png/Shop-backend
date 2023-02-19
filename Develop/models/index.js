@@ -1,117 +1,30 @@
-// import models
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('./sequelize');
+const Product = require('./Product');
+const ProductTag = require('./ProductTag');
+const Tag = require('./Tag')
+const Category = require('./Category')
 
-// Define models
-class Product extends Model {}
-Product.init({
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  product_name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  price: {
-    type: DataTypes.DECIMAL,
-    allowNull: false,
-    validate: {
-      isDecimal: true,
-    },
-  },
-  stock: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    defaultValue: 10,
-    validate: {
-      isNumeric: true,
-    },
-  },
-  category_id: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: 'category',
-      key: 'id',
-    },
-  },
-}, {
-  sequelize,
-  modelName: 'product'
-});
+// Products belongsTo Category
+Product.belongsTo(Category, {
+  foreignKey: 'category_id',
+})
 
-// Define association between Product and Category
-Product.belongsTo(Category);
-Category.hasMany(Product);
+// Categories have many Products
+Category.hasMany(Product, {
+  foreignKey: "category_id",
+})
 
-// Define association between Product and Tag
-Product.belongsToMany(Tag, { through: ProductTag });
-Tag.belongsToMany(Product, { through: ProductTag });
+// Products belongToMany Tags (through ProductTag)
+Product.belongsToMany(Tag, {
+  through: ProductTag,
+  foreignKey: 'product_id'
 
-// Category model
-class Category extends Model {}
-Category.init({
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  category_name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-}, {
-  sequelize,
-  modelName: 'category'
-});
+})
 
-// Tag model
-class Tag extends Model {}
-Tag.init({
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  tag_name: {
-    type: DataTypes.STRING,
-  },
-}, {
-  sequelize,
-  modelName: 'tag'
-});
-
-// ProductTag model
-class ProductTag extends Model {}
-ProductTag.init({
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  product_id: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: 'product',
-      key: 'id',
-    },
-  },
-  tag_id: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: 'tag',
-      key: 'id',
-    },
-  },
-}, {
-  sequelize,
-  modelName: 'product_tag'
-});
+// Tags belongToMany Products (through ProductTag)
+Tag.belongsToMany(Product, {
+  through: ProductTag,
+  foreignKey: 'tag_id'
+})
 
 module.exports = {
   Product,
