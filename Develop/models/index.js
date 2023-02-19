@@ -4,13 +4,46 @@ const Category = require('./Category');
 const Tag = require('./Tag');
 const ProductTag = require('./ProductTag');
 
-// Products belongsTo Category
+// Product model
+class Product extends Model {}
+Product.init({
+}, {
+  sequelize,
+  modelName: 'product'
+});
 
-// Categories have many Products
+// Define association between Product and Category
+Product.belongsTo(Category);
+Category.hasMany(Product);
 
-// Products belongToMany Tags (through ProductTag)
+// Define association between Product and Tag
+Product.belongsToMany(Tag, { through: ProductTag });
+Tag.belongsToMany(Product, { through: ProductTag });
 
-// Tags belongToMany Products (through ProductTag)
+// Category model
+class Category extends Model {}
+Category.init({
+}, {
+  sequelize,
+  modelName: 'category'
+});
+
+// Tag model
+class Tag extends Model {}
+Tag.init({
+}, {
+  sequelize,
+  modelName: 'tag'
+});
+
+// ProductTag model
+class ProductTag extends Model {}
+ProductTag.init({
+}, {
+  sequelize,
+  modelName: 'product_tag'
+});
+
 
 module.exports = {
   Product,
