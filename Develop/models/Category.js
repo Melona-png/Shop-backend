@@ -1,45 +1,30 @@
+// requiring the default models from sequelize
 const { Model, DataTypes } = require('sequelize');
-
+// requiring the connection file in config
 const sequelize = require('../config/connection.js');
-
+// making a category table
 class Category extends Model {}
 
 Category.init(
-    {
-      // define columns
-      id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      product_name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      price: {
-        type: DataTypes.DECIMAL(10, 2),
-        allowNull: false,
-        validate: {
-          isDecimal: true
-        }
-      },
-      stock: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 10,
-        validate: {
-          isNumeric: true
-        }
-      },
-      category_id: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'Category',
-          key: 'id'
-        }
-      }
-    }),
-  
-
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    category_name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
+  },
+  {
+    sequelize,
+    timestamps: false,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'category',
+  }
+);
+// exporting category table
 module.exports = Category;
