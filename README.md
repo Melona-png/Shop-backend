@@ -24,4 +24,4 @@ You can test the API using a tool like Postman. Send requests to the API endpoin
 ## Conclusion
 This backend provides a foundation for building a robust e-commerce website. By utilizing technologies like MySQL, JavaScript, and Express.js, you can create an API that can handle a high volume of traffic and provide a seamless experience for your users.
 
-Video walkthrough of API testing: https://drive.google.com/file/d/1b1PSGRDONTOoDYZUn66M2ohhFMlQlJ-F/view
+Video walkthrough of API testing: [https://drive.google.com/file/d/1DmHwLoIzI05urpaDwWSkJ0NG3Nf0oeXx/view]
